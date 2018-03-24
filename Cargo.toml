@@ -4,3 +4,4 @@ version = "0.1.0"
 authors = ["Russell Mull <russell@digitalartificer.com>"]
 
 [dependencies]
+string_cache = "0.7"

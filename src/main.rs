@@ -1,8 +1,11 @@
 use std::collections::HashMap;
 
+extern crate string_cache;
+use string_cache::DefaultAtom as Atom;
+
 #[derive(PartialEq, Eq, Hash, Clone, Debug)]
 struct LSymbol {
-    name: String,
+    atom: Atom,
 }
 
 #[derive(Hash, Clone, Debug)]
@@ -41,7 +44,7 @@ fn eval(val: &LValue, scope: &Scope) -> LValue {
 
 fn sym(name: &str) -> LSymbol {
     LSymbol {
-        name: name.to_string(),
+        atom: Atom::from(name),
     }
 }
 
@@ -71,6 +74,10 @@ fn main() {
         bindings: bindings,
     };
 
+    println!("x sym:: {:?}", x);
     println!("x: {:?}", eval(&LValue::Symbol{sym:x}, &scope));
     println!("pi: {:?}", eval(&LValue::Symbol{sym:pi}, &scope));
+
+    // println!("x: {:?}", Atom::from("foo"));
+
 }
