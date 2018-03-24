@@ -24,10 +24,13 @@ struct Scope {
 }
 
 fn resolve_symbol(scope: &Scope, sym: &LSymbol) -> LValue {
-    match (scope.bindings.get(sym), &scope.parent) {
-        (Some(val), ..) => val.clone(),
-        (None, &Some(ref parent_scope)) => resolve_symbol(parent_scope, sym),
-        (None, &None) => LValue::Nil,
+    let mut current_scope = scope;
+    loop {
+        match (current_scope.bindings.get(sym), &scope.parent) {
+            (Some(val), ..) => return val.clone(),
+            (None, &Some(ref parent_scope)) => current_scope = parent_scope,
+            (None, &None) => return LValue::Nil,
+        };
     }
 }
 
